@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Enitities\Album.cs" />
     <Compile Include="Enitities\Artist.cs" />
+    <Compile Include="POCOs\AlbumArtist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
