@@ -11,16 +11,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chinook.Data.Enitities
 {
-    [Table("Artists")]
-    public class Artist
+    [Table("MediaTypes")]
+    public class MediaType
     {
         [Key]
-        public int ArtistId { get; set; }
+        public int MediaTypeId { get; set; }
         public string Name { get; set; }
 
-        //navigational properties
-        //the virtual property Albums point to all children of the
-        //  parent instance
-        public virtual ICollection<Album> Albums { get; set; }
+        //Navigation properties
+        public virtual ICollection<Track> Tracks { get; set; }
+
     }
 }
