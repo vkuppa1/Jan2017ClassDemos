@@ -29,7 +29,8 @@ select new{
 		albums = from y in result
 				 select new{
 				 	title = y.Title,
-					ryear = y.ReleaseYear
+					ryear = y.ReleaseYear,
+					label = y.ReleaseLabel
 				 }
 }
 //when grouping by multiple fields
