@@ -42,11 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\ArtistAlbumReleases.cs" />
     <Compile Include="Enitities\Album.cs" />
     <Compile Include="Enitities\Artist.cs" />
     <Compile Include="Enitities\MediaType.cs" />
     <Compile Include="Enitities\Track.cs" />
     <Compile Include="POCOs\AlbumArtist.cs" />
+    <Compile Include="POCOs\AlbumRelease.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
