@@ -5,9 +5,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
      <h1>CRUD in Tabs</h1>
-    <div class="row">
-        <uc1:MessageUserControl runat="server" ID="MessageUserControl" />
-    </div>
+         
     <div class="row">
         <div class="col-md-12">
             <script>
@@ -23,11 +21,14 @@
             </ul>
 
             <!--Tab panes one for each tab-->
-            <div class="tab-content">
+            <div class="tab-content"> 
+        
                 <div class="tab-pane fade in active" id="find">
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
-                            
+  
+        <uc1:MessageUserControl runat="server" ID="MessageUserControl1" />
+                             
                                 <asp:Label ID="Label1" runat="server" Text="Album Title:"></asp:Label>&nbsp;&nbsp;
                                 <asp:TextBox ID="SearchArg" runat="server"></asp:TextBox>&nbsp;&nbsp;
                                 <asp:Button class="btn" ID="Search" runat="server" OnClick="Search_Click" Text="Search"></asp:Button>
@@ -71,6 +72,7 @@
                  <div class="tab-pane fade" id="maintain">
                      <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                         <ContentTemplate>
+                             <uc1:MessageUserControl runat="server" ID="MessageUserControl2" />
                             <div class="row">
                                 <fieldset class="form-horizontal">
                                     <legend>Album Maintenance</legend>
@@ -89,9 +91,9 @@
                                 </fieldset>
                             </div>
                             <div class="row">
-                                <asp:Button ID="Button1" runat="server" Text="Button" /> 
-                                <asp:Button ID="Button2" runat="server" Text="Button" /> 
-                                <asp:Button ID="Button3" runat="server" Text="Button" /> 
+                                <asp:Button class="btn" ID="AddAlbum" runat="server" OnClick="AddAlbum_Click" Text="Add"></asp:Button>
+                                <asp:Button class="btn" ID="UpdateAlbum" runat="server" OnClick="UpdateAlbum_Click" Text="Update"></asp:Button>
+                                <asp:Button class="btn" ID="DeleteAlbum" runat="server" OnClick="DeleteAlbum_Click" Text="Delete"></asp:Button>
                                 <button type="button"  class="btn"
                                     onclick="nextButton('#find')" >Back</button><br />
                             </div>

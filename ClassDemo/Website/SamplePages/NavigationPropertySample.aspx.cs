@@ -11,4 +11,6 @@ public partial class SamplePages_NavigationPropertySample : System.Web.UI.Page
     {
 
     }
+
+
 }

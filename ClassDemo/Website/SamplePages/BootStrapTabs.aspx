@@ -1,7 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="BootStrapTabs.aspx.cs" Inherits="SamplePages_BootStrapTabs" %>
 
+<%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="uc1" TagName="MessageUserControl" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <h1>Bootstrap Tabs</h1>
+
     <div class="row">
         <div class="col-md-12">
             <!--Nav tabs-->
@@ -15,7 +19,9 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="home">
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                        <ContentTemplate>
+                         
+                        <ContentTemplate>  
+                            
                             <p>This is an example of using css tabs. Each tab is
                                 created in the nav tab area. It is assigned a href
                                 value to identify the tab pane.
@@ -25,6 +31,7 @@
                                 all panes are loaded with their data. You have
                                 access to all controls on all pane at all times.
                             </p>
+                         
                         </ContentTemplate>
                     </asp:UpdatePanel>   
                 </div>
