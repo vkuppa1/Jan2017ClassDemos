@@ -20,10 +20,15 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
 
     protected void Search_Click(object sender, EventArgs e)
     {
-
+        AlbumID.Text = "";
+        AlbumTitle.Text = "";
+        AlbumReleaseYear.Text = "";
+        AlbumReleaseLabel.Text = "";
+        ArtistList.SelectedIndex = 0;
         if (string.IsNullOrEmpty(SearchArg.Text))
         {
             MessageUserControl1.ShowInfo("Enter an album title or part of the title.");
+           
         }
         else
         {
@@ -49,7 +54,7 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
 
     protected void CheckForException(object sender, ObjectDataSourceStatusEventArgs e)
     {
-        MessageUserControl1.HandleDataBoundException(e);
+        MessageUserControl2.HandleDataBoundException(e);
     }
 
     protected void AlbumList_SelectedIndexChanged(object sender, EventArgs e)
@@ -59,17 +64,23 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
         string albumtitle = (agvrow.FindControl("Title") as Label).Text;
         string albumyear = (agvrow.FindControl("Year") as Label).Text;
         string albumlabel = (agvrow.FindControl("AlbumLabel") as Label).Text;
+        string artistid = (agvrow.FindControl("ArtistID") as Label).Text;
         SelectedTitle.Text = albumtitle + " release in " + albumyear + " by " + albumlabel;
         AlbumID.Text = albumid;
         AlbumTitle.Text = albumtitle;
         AlbumReleaseYear.Text = albumyear;
         AlbumReleaseLabel.Text = albumlabel;
+        ArtistList.SelectedValue = artistid;
 
     }
 
     protected void AddAlbum_Click(object sender, EventArgs e)
     {
-        MessageUserControl2.ShowInfo("inside Add");
+        if (IsValid)
+        {
+
+        }
+       
     }
     protected void UpdateAlbum_Click(object sender, EventArgs e)
     {
@@ -78,5 +89,13 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
     protected void DeleteAlbum_Click(object sender, EventArgs e)
     {
         MessageUserControl2.ShowInfo("inside Delete");
+    }
+    protected void Clear_Click(object sender, EventArgs e)
+    {
+        AlbumID.Text = "";
+        AlbumTitle.Text = "";
+        AlbumReleaseYear.Text = "";
+        AlbumReleaseLabel.Text = "";
+        ArtistList.SelectedIndex = 0;
     }
 }
