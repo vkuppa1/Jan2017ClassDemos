@@ -5,13 +5,13 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
      <h1>CRUD in Tabs</h1>
-        <asp:UpdatePanel ID="UpdatePanelMessage" runat="server">
+       <%-- <asp:UpdatePanel ID="UpdatePanelMessage" runat="server">
             <ContentTemplate>
                
-               
+                
         
             </ContentTemplate>
-        </asp:UpdatePanel>   
+        </asp:UpdatePanel>   --%>
         <div class="row">
         <div class="col-md-12">
             <script>
@@ -24,6 +24,7 @@
                 <li class="active"><a href="#find" data-toggle="tab">Find</a></li>
                 <li ><a href="#maintain" data-toggle="tab">Maintain</a></li>
                 <li ><a href="#lvmaintain" data-toggle="tab">ListView</a></li>
+             
             </ul>
 
             <!--Tab panes one for each tab-->
@@ -32,12 +33,10 @@
                 <div class="tab-pane fade in active" id="find">
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
-                                <uc1:MessageUserControl runat="server" ID="MessageUserControl1" />
-                               
-                             
+                               <uc1:MessageUserControl runat="server" ID="MessageUserControl1" />
                                 <asp:Label ID="Label1" runat="server" Text="Album Title:"></asp:Label>&nbsp;&nbsp;
                                 <asp:TextBox ID="SearchArg" runat="server"></asp:TextBox>&nbsp;&nbsp;
-                                <asp:Button cssclass="btn" ID="Search" runat="server" OnClick="Search_Click" Text="Search"></asp:Button>
+                                <asp:Button  ID="Search" runat="server" OnClick="Search_Click" Text="Search" CausesValidation="False"></asp:Button>
                             <br /><br />
                                 <asp:GridView ID="AlbumList" runat="server" AutoGenerateColumns="False" 
                                     OnSelectedIndexChanged="AlbumList_SelectedIndexChanged">
@@ -99,8 +98,8 @@
                                  ControlToValidate="AlbumReleaseYear" ValidationExpression="[0-9][0-9][0-9][0-9]" 
                                 SetFocusOnError="True" ForeColor="#990000" ErrorMessage="Invalid year format (yyyy).">
                             </asp:RegularExpressionValidator>    
-                                <fieldset class="form-horizontal">
-                                    <legend>Album Maintenance</legend>
+                              <%--  <fieldset class="form-horizontal">
+                                    <legend>Album Maintenance</legend>--%>
                                     <asp:Label ID="Label4" runat="server" Text="Album ID:"
                                         AssociatedControlID="AlbumID"></asp:Label> 
                                     <asp:Label ID="AlbumID" runat="server" ></asp:Label><br />
@@ -120,7 +119,7 @@
                                     <asp:Label ID="Label8" runat="server" Text="Label"
                                          AssociatedControlID="AlbumReleaseLabel"></asp:Label>
                                     <asp:TextBox ID="AlbumReleaseLabel" runat="server"></asp:TextBox><br />
-                                </fieldset>
+                               <%-- </fieldset>--%>
                             
                             <br/>
                                 <asp:Button cssclass="btn" ID="AddAlbum" runat="server" OnClick="AddAlbum_Click" Text="Add"></asp:Button>
@@ -144,6 +143,15 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>   
                 </div>
+
+<%--                  <div class="tab-pane fade in active" id="find">
+                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                              <uc1:MessageUserControl runat="server" ID="MessageUserControl1" />
+                            <asp:Button ID="Search" runat="server" Text="Search" OnClick="Search_Click" CssClass="btn" />
+                        </ContentTemplate>
+                    </asp:UpdatePanel>   
+                </div>--%>
            </div>
         </div>
     </div>

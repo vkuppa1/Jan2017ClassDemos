@@ -113,20 +113,21 @@ namespace ChinookSystem.BLL
         [DataObjectMethod(DataObjectMethodType.Update, false)]
         public void Albums_Update(Album item)
         {
-            throw new Exception("update bll.");
+          
             using (var context = new ChinookContext())
             {
-                var existing = context.Albums.Find(item.AlbumId);
-                if (existing == null)
-                {
-                    throw new Exception("Album no long on file.");
-                }
+                //var existing = context.Albums.Find(item.AlbumId);
+                //if (existing == null)
+                //{
+                //    throw new Exception("Album no long on file.");
+                //}
                 //any business rules
 
                 //any data refinements
                 //review of using iif
                 //composer can be a null string
                 //we do not wish to store an empty string
+                context.Albums.Attach(item);
                 item.ReleaseLabel = string.IsNullOrEmpty(item.ReleaseLabel) ?
                                             null : item.ReleaseLabel;
 

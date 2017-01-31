@@ -25,10 +25,11 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
         AlbumReleaseYear.Text = "";
         AlbumReleaseLabel.Text = "";
         ArtistList.SelectedIndex = 0;
+
         if (string.IsNullOrEmpty(SearchArg.Text))
         {
             MessageUserControl1.ShowInfo("Enter an album title or part of the title.");
-           
+
         }
         else
         {
@@ -154,6 +155,7 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
         AlbumReleaseLabel.Text = "";
         ArtistList.SelectedIndex = 0;
     }
+
 
 
 }
