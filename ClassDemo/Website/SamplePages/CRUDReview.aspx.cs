@@ -78,17 +78,73 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
     {
         if (IsValid)
         {
-
+            MessageUserControl2.TryRun(() =>
+            {
+                Album newalbum = new Album();
+                newalbum.Title = AlbumTitle.Text;
+                newalbum.ArtistId = int.Parse(ArtistList.SelectedValue);
+                newalbum.ReleaseYear = int.Parse(AlbumReleaseYear.Text);
+                newalbum.ReleaseLabel = string.IsNullOrEmpty(AlbumReleaseLabel.Text) ? null : AlbumReleaseLabel.Text;
+                AlbumController sysmgr = new AlbumController();
+                sysmgr.Albums_Add(newalbum);
+            },"Add Album","Album has been successfully added to the database.");
         }
        
     }
     protected void UpdateAlbum_Click(object sender, EventArgs e)
     {
-        MessageUserControl2.ShowInfo("inside Update");
+        if (IsValid)
+        {
+            if (string.IsNullOrEmpty(AlbumID.Text))
+            {
+                MessageUserControl2.ShowInfo("Missing data", "Missing Album Id. Use Find to locate the album you wish to maintain.");
+            }
+            else
+            {
+                int albumid = 0;
+                if (int.TryParse(AlbumID.Text, out albumid))
+                {
+                    MessageUserControl2.TryRun(() =>
+                    {
+                        Album updatealbum = new Album();
+                        updatealbum.AlbumId = albumid;
+                        updatealbum.Title = AlbumTitle.Text;
+                        updatealbum.ArtistId = int.Parse(ArtistList.SelectedValue);
+                        updatealbum.ReleaseYear = int.Parse(AlbumReleaseYear.Text);
+                        updatealbum.ReleaseLabel = string.IsNullOrEmpty(AlbumReleaseLabel.Text) ? null : AlbumReleaseLabel.Text;
+                        AlbumController sysmgr = new AlbumController();
+                        sysmgr.Albums_Update(updatealbum);
+                    }, "Update Album", "Album has been successfully updated on the database.");
+                }
+                else
+                {
+                    MessageUserControl2.ShowInfo("Invalid data", "Album Id. Use Find to locate the album you wish to maintain.");
+                }
+            }
+        }
     }
     protected void DeleteAlbum_Click(object sender, EventArgs e)
     {
-        MessageUserControl2.ShowInfo("inside Delete");
+        if (string.IsNullOrEmpty(AlbumID.Text))
+        {
+            MessageUserControl2.ShowInfo("Missing data", "Missing Album Id. Use Find to locate the album you wish to maintain.");
+        }
+        else
+        {
+            int albumid = 0;
+            if (int.TryParse(AlbumID.Text, out albumid))
+            {
+                MessageUserControl2.TryRun(() =>
+                {
+                    AlbumController sysmgr = new AlbumController();
+                    sysmgr.Album_Delete(albumid);
+                }, "Delete Album", "Album has been successfully removed from the database.");
+            }
+            else
+            {
+                MessageUserControl2.ShowInfo("Invalid data", "Album Id. Use Find to locate the album you wish to maintain.");
+            }
+        }
     }
     protected void Clear_Click(object sender, EventArgs e)
     {
@@ -98,4 +154,6 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
         AlbumReleaseLabel.Text = "";
         ArtistList.SelectedIndex = 0;
     }
+
+
 }

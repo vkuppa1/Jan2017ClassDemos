@@ -38,7 +38,7 @@
                                 <asp:Label ID="Label1" runat="server" Text="Album Title:"></asp:Label>&nbsp;&nbsp;
                                 <asp:TextBox ID="SearchArg" runat="server"></asp:TextBox>&nbsp;&nbsp;
                                 <asp:Button cssclass="btn" ID="Search" runat="server" OnClick="Search_Click" Text="Search"></asp:Button>
-                                <br /><br />
+                            <br /><br />
                                 <asp:GridView ID="AlbumList" runat="server" AutoGenerateColumns="False" 
                                     OnSelectedIndexChanged="AlbumList_SelectedIndexChanged">
                                     <Columns>
@@ -91,11 +91,14 @@
                             <asp:RequiredFieldValidator ID="RequiredFieldAlbumReleaseYear" runat="server" ForeColor="#990000" 
                                 ErrorMessage="Year required field" ControlToValidate="AlbumReleaseYear" SetFocusOnError="True"  Display="None">
                             </asp:RequiredFieldValidator>
-                            <asp:CompareValidator ID="CompareAlbumReleaseYear" runat="server" ForeColor="#990000" 
-                                ErrorMessage="Invalid year format (yyyy)." ControlToValidate="AlbumReleaseYear" SetFocusOnError="True"  Display="None" 
+                            <asp:CompareValidator ID="CompareAlbumReleaseYear" runat="server" ForeColor="#990000" Display="None"
+                                ErrorMessage="Invalid year not numeric." ControlToValidate="AlbumReleaseYear" SetFocusOnError="True" 
                                 Type="Integer" Operator="DataTypeCheck">
                             </asp:CompareValidator>
-                                
+                            <asp:RegularExpressionValidator ID="RegularExpressionAlbumReleaseYear" runat="server" Display="None"
+                                 ControlToValidate="AlbumReleaseYear" ValidationExpression="[0-9][0-9][0-9][0-9]" 
+                                SetFocusOnError="True" ForeColor="#990000" ErrorMessage="Invalid year format (yyyy).">
+                            </asp:RegularExpressionValidator>    
                                 <fieldset class="form-horizontal">
                                     <legend>Album Maintenance</legend>
                                     <asp:Label ID="Label4" runat="server" Text="Album ID:"
@@ -122,7 +125,7 @@
                             <br/>
                                 <asp:Button cssclass="btn" ID="AddAlbum" runat="server" OnClick="AddAlbum_Click" Text="Add"></asp:Button>
                                 <asp:Button cssclass="btn" ID="UpdateAlbum" runat="server" OnClick="UpdateAlbum_Click" Text="Update"></asp:Button>
-                                <asp:Button cssclass="btn" ID="DeleteAlbum" runat="server" OnClick="DeleteAlbum_Click" Text="Delete"></asp:Button>
+                                <asp:Button cssclass="btn" ID="DeleteAlbum" runat="server" OnClick="DeleteAlbum_Click" Text="Delete" CausesValidation="false"></asp:Button>
                                 <asp:Button cssclass="btn" ID="Clear" runat="server" OnClick="Clear_Click" Text="Clear" CausesValidation="false"></asp:Button>
                                 <button type="button"  class="btn" onclick="nextButton('#find')" >Back</button><br />
                             <br/>

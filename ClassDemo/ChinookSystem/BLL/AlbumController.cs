@@ -113,6 +113,7 @@ namespace ChinookSystem.BLL
         [DataObjectMethod(DataObjectMethodType.Update, false)]
         public void Albums_Update(Album item)
         {
+            throw new Exception("update bll.");
             using (var context = new ChinookContext())
             {
                 var existing = context.Albums.Find(item.AlbumId);
