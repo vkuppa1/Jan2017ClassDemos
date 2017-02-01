@@ -55,7 +55,7 @@ public partial class SamplePages_CRUDReview : System.Web.UI.Page
 
     protected void CheckForException(object sender, ObjectDataSourceStatusEventArgs e)
     {
-        MessageUserControl2.HandleDataBoundException(e);
+        MessageUserControl.HandleDataBoundException(e);
     }
 
     protected void AlbumList_SelectedIndexChanged(object sender, EventArgs e)

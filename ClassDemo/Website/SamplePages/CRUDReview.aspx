@@ -5,13 +5,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
      <h1>CRUD in Tabs</h1>
-       <%-- <asp:UpdatePanel ID="UpdatePanelMessage" runat="server">
+        <asp:UpdatePanel ID="UpdatePanelMessage" runat="server">
             <ContentTemplate>
-               
-                
-        
+               <uc1:MessageUserControl runat="server" ID="MessageUserControl" />
             </ContentTemplate>
-        </asp:UpdatePanel>   --%>
+        </asp:UpdatePanel>   
         <div class="row">
         <div class="col-md-12">
             <script>
@@ -144,14 +142,7 @@
                     </asp:UpdatePanel>   
                 </div>
 
-<%--                  <div class="tab-pane fade in active" id="find">
-                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                        <ContentTemplate>
-                              <uc1:MessageUserControl runat="server" ID="MessageUserControl1" />
-                            <asp:Button ID="Search" runat="server" Text="Search" OnClick="Search_Click" CssClass="btn" />
-                        </ContentTemplate>
-                    </asp:UpdatePanel>   
-                </div>--%>
+
            </div>
         </div>
     </div>

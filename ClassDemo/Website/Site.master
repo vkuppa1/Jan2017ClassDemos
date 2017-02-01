@@ -101,6 +101,9 @@
                                 <asp:MenuItem Text="CRUD Review"
                                      NavigateUrl="~/SamplePages/CRUDReview.aspx">
                                 </asp:MenuItem>
+                                <asp:MenuItem Text="ListView CRUD"
+                                     NavigateUrl="~/SamplePages/ListViewCRUD.aspx">
+                                </asp:MenuItem>
                             </asp:MenuItem>
 
                             <asp:MenuItem Text="About" NavigateUrl="~/About.aspx"></asp:MenuItem>
