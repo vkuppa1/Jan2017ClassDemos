@@ -74,7 +74,19 @@ namespace ChinookSystem.BLL
             }
         }//eom
         #region CRUD
-        [DataObjectMethod(DataObjectMethodType.Select,false)]
+       
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<Album> Albums_GetbyTitle(string title)
+        {
+            using (var context = new ChinookContext())
+            {
+                var results = from x in context.Albums
+                              where x.Title.Contains(title)
+                              select x;
+                return results.ToList();
+            }
+        }
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
         public List<Album> Albums_List()
         {
             using (var context = new ChinookContext())
@@ -88,17 +100,6 @@ namespace ChinookSystem.BLL
             using (var context = new ChinookContext())
             {
                 return context.Albums.Find(albumid);
-            }
-        }
-        [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public List<Album> Albums_GetbyTitle(string title)
-        {
-            using (var context = new ChinookContext())
-            {
-                var results = from x in context.Albums
-                              where x.Title.Contains(title)
-                              select x;
-                return results.ToList();
             }
         }
         [DataObjectMethod(DataObjectMethodType.Insert, false)]
