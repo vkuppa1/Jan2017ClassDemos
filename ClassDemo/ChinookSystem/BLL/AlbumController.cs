@@ -105,8 +105,10 @@ namespace ChinookSystem.BLL
         [DataObjectMethod(DataObjectMethodType.Insert, false)]
         public void Albums_Add(Album item)
         {
+           
             using (var context = new ChinookContext())
-            {
+            { 
+                //any business rules
                 context.Albums.Add(item);
                 context.SaveChanges();
             }
@@ -114,19 +116,13 @@ namespace ChinookSystem.BLL
         [DataObjectMethod(DataObjectMethodType.Update, false)]
         public void Albums_Update(Album item)
         {
-          
             using (var context = new ChinookContext())
             {
-                //var existing = context.Albums.Find(item.AlbumId);
-                //if (existing == null)
-                //{
-                //    throw new Exception("Album no long on file.");
-                //}
                 //any business rules
 
                 //any data refinements
                 //review of using iif
-                //composer can be a null string
+                //Release Label can be a null string
                 //we do not wish to store an empty string
                 context.Albums.Attach(item);
                 item.ReleaseLabel = string.IsNullOrEmpty(item.ReleaseLabel) ?
@@ -145,13 +141,13 @@ namespace ChinookSystem.BLL
 
         //the delete is an overload method technique
 
-        [DataObjectMethod(DataObjectMethodType.Delete, true)]
-        public void Album_Delete(Album item)
+        [DataObjectMethod(DataObjectMethodType.Delete, false)]
+        public void Albums_Delete(Album item)
         {
-            Album_Delete(item.AlbumId);
+            Albums_Delete(item.AlbumId);
         }
 
-        public void Album_Delete(int albumid)
+        public void Albums_Delete(int albumid)
         {
             using (var context = new ChinookContext())
             {
@@ -160,6 +156,11 @@ namespace ChinookSystem.BLL
                 //do the delete
                 //find the existing record on the database
                 var existing = context.Albums.Find(albumid);
+
+                if (existing == null)
+                {
+                    throw new Exception("Album does not exists on database.");
+                }
                 //delete the record from the database
                 context.Albums.Remove(existing);
                 //commit the transaction

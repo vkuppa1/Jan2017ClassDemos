@@ -38,7 +38,7 @@
                                 <asp:Label ID="Label1" runat="server" Text="Album Title:"></asp:Label>&nbsp;&nbsp;
                                 <asp:TextBox ID="SearchArg" runat="server"></asp:TextBox>&nbsp;&nbsp;
 
-                                <!-- Search buttons do not want Validation(on tap 2) to happen on the web page-->
+                                <!-- Search buttons do not want Validation(on tap 2) to happen on the web page -->
                                 <asp:Button  ID="Search" runat="server" OnClick="Search_Click" Text="Search" CausesValidation="False"></asp:Button>
                             <br /><br />
                                 <asp:GridView ID="AlbumList" runat="server" AutoGenerateColumns="False" 
