@@ -96,28 +96,33 @@ namespace ChinookSystem.BLL.Security
                         //suggested new employee UserName (intitial firstname and lastname : dwelch)
                         var newUserName = employee.FirstName.Substring(0, 1) + employee.LastName;
 
-                        //verify the suggested UserName is not already on the Users Table
-                        //if the suggested UserName does exist, the method will suggest
-                        //    an alternate UserName
-                        newUserName = VerifyNewUserName(newUserName);
-
                         //create new Users instance
                         var userAccount = new ApplicationUser()
                         {
                             UserName = newUserName,
                             Email = string.Format(STR_EMAIL_FORMAT, newUserName),
                             EmailConfirmed = true
-                            
                         };
                         userAccount.EmployeeId = employee.EmployeeId;
-                        this.Create(userAccount, STR_DEFAULT_PASSWORD);
+                        IdentityResult result = this.Create(userAccount, STR_DEFAULT_PASSWORD);
+
+                        //the Create will return a true if the account was created
+                        //during the Create, IdentityRole checks to see if the username
+                        //has already been used. if so, false, if not, true
+                        if (!result.Succeeded)
+                        { 
+                            //name was already in use
+                            //get a UserName that is not already on the Users Table
+                            //the method will suggest an alternate UserName
+                            newUserName = VerifyNewUserName(newUserName);
+                            userAccount.UserName = newUserName;
+                            this.Create(userAccount, STR_DEFAULT_PASSWORD);
+                        }
 
                         //add to Staff Role
                         this.AddToRole(userAccount.Id, SecurityRoles.Staff);
-
                     }
                 }
-
             }
         }//eom
 
@@ -187,30 +192,31 @@ namespace ChinookSystem.BLL.Security
         [DataObjectMethod(DataObjectMethodType.Insert,false)]
         public void AddUser(UserProfile userinfo)
         {
-            string verifiedUserName = VerifyNewUserName(userinfo.UserName);
-            if (verifiedUserName.Equals(userinfo.UserName))
+            var userAccount = new ApplicationUser()
             {
-                var userAccount = new ApplicationUser()
-                {
-                    EmployeeId = userinfo.EmployeeId,
-                    CustomerId = userinfo.CustomerId,
-                    UserName = userinfo.UserName,
-                    Email = userinfo.Email
-                };
-                this.Create(userAccount,
-                    string.IsNullOrEmpty(userinfo.RequestedPassord) ? STR_DEFAULT_PASSWORD
-                    : userinfo.RequestedPassord);
-                foreach( var roleName in userinfo.RoleMemberships)
-                {
-                    //this.AddToRole(userAccount.Id, roleName);
-                    AddUserToRole(userAccount, roleName);
-                }
+                EmployeeId = userinfo.EmployeeId,
+                CustomerId = userinfo.CustomerId,
+                UserName = userinfo.UserName,
+                Email = userinfo.Email
+            };
+            IdentityResult result = this.Create(userAccount,
+                string.IsNullOrEmpty(userinfo.RequestedPassord) ? STR_DEFAULT_PASSWORD
+                : userinfo.RequestedPassord);
+            if (!result.Succeeded)
+            {
+                //name was already in use
+                //get a UserName that is not already on the Users Table
+                //the method will suggest an alternate UserName
+                userAccount.UserName = VerifyNewUserName(userinfo.UserName);
+                this.Create(userAccount, STR_DEFAULT_PASSWORD);
             }
-            else
+            foreach ( var roleName in userinfo.RoleMemberships)
             {
-                throw new Exception("Creation failed. " + userinfo.UserName + " is already in use, try " + verifiedUserName);
+                //this.AddToRole(userAccount.Id, roleName);
+                AddUserToRole(userAccount, roleName);
             }
         }
+
         public void AddUserToRole(ApplicationUser userAccount, string roleName)
         {
             this.AddToRole(userAccount.Id, roleName);

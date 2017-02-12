@@ -116,7 +116,10 @@
                             InsertMethod="AddUser" 
                             SelectMethod="ListAllUsers"
                             OldValuesParameterFormatString="original_{0}"  
-                            TypeName="ChinookSystem.BLL.Security.UserManager">
+                            TypeName="ChinookSystem.BLL.Security.UserManager"
+                             OnDeleted="CheckForException"
+                             OnInserted="CheckForException"
+                             OnSelected="CheckForException">
                         </asp:ObjectDataSource>
                             <asp:ObjectDataSource ID="RoleNameODS" runat="server" 
                             SelectMethod="ListAllRoleNames"
@@ -152,7 +155,7 @@
                                    <div class="row">
                                        <div class="col-sm-3">
                                            <asp:LinkButton ID="DeleteButton" runat="server"
-                                               text="Delete" CommandName="Dlete"></asp:LinkButton>
+                                               text="Delete" CommandName="Delete"></asp:LinkButton>
                                        </div>
                                        <div class="col-sm-3">
                                            <%# Item.RoleName %>
@@ -190,7 +193,10 @@
                                 DeleteMethod="DeleteRole" 
                                 InsertMethod="AddRole"
                                 TypeName="ChinookSystem.BLL.Security.RoleManager" 
-                                DataObjectTypeName="Chinook.Data.Enitities.Security.RoleProfile">
+                                DataObjectTypeName="Chinook.Data.Enitities.Security.RoleProfile"
+                                OnDeleted="CheckForException"
+                                OnInserted="CheckForException"
+                                OnSelected="CheckForException">
                             </asp:ObjectDataSource>
                         </ContentTemplate>
                     </asp:UpdatePanel>   
