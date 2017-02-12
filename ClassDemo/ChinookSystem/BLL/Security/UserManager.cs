@@ -12,10 +12,13 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using ChinookSystem.DAL.Security;
 using ChinookSystem.DAL;
 using Chinook.Data.POCOs;
+using System.ComponentModel;
+using Chinook.Data.Enitities;
 #endregion
 
 namespace ChinookSystem.BLL.Security
 {
+    [DataObject]
     public class UserManager : UserManager<ApplicationUser>
     {
         public UserManager() : base(new UserStore<ApplicationUser>(new ApplicationDbContext()))
@@ -102,7 +105,9 @@ namespace ChinookSystem.BLL.Security
                         var userAccount = new ApplicationUser()
                         {
                             UserName = newUserName,
-                            Email = string.Format(STR_EMAIL_FORMAT, newUserName)
+                            Email = string.Format(STR_EMAIL_FORMAT, newUserName),
+                            EmailConfirmed = true
+                            
                         };
                         userAccount.EmployeeId = employee.EmployeeId;
                         this.Create(userAccount, STR_DEFAULT_PASSWORD);
@@ -145,5 +150,71 @@ namespace ChinookSystem.BLL.Security
             //return the finallized new verified UserName
             return verifiedUserName;
         }
+
+        #region UserRole Adminstration
+        [DataObjectMethod(DataObjectMethodType.Select,false)]
+        public List<UserProfile> ListAllUsers()
+        {
+            var rm = new RoleManager();
+            var results = from person in Users.ToList()
+                          select new UserProfile
+                          {
+                              UserId = person.Id,
+                              UserName = person.UserName,
+                              Email = person.Email,
+                              EmailConfirmation = person.EmailConfirmed,
+                              EmployeeId = person.EmployeeId,
+                              CustomerId = person.CustomerId,
+                              RoleMemberships = person.Roles.Select(r => rm.FindById(r.RoleId).Name)
+                          };
+            //get any user first and last names
+            using (var context = new ChinookContext())
+            {
+                Employee tempEmployee;
+                foreach(var person in results)
+                {
+                    if (person.EmployeeId.HasValue)
+                    {
+                        tempEmployee = context.Employees.Find(person.EmployeeId);
+                        person.FirstName = tempEmployee.FirstName;
+                        person.LastName = tempEmployee.LastName;
+                    }
+                }
+            }
+            return results.ToList();
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Insert,false)]
+        public void AddUser(UserProfile userinfo)
+        {
+            string verifiedUserName = VerifyNewUserName(userinfo.UserName);
+            if (verifiedUserName.Equals(userinfo.UserName))
+            {
+                var userAccount = new ApplicationUser()
+                {
+                    EmployeeId = userinfo.EmployeeId,
+                    CustomerId = userinfo.CustomerId,
+                    UserName = userinfo.UserName,
+                    Email = userinfo.Email
+                };
+                this.Create(userAccount,
+                    string.IsNullOrEmpty(userinfo.RequestedPassord) ? STR_DEFAULT_PASSWORD
+                    : userinfo.RequestedPassord);
+                foreach( var roleName in userinfo.RoleMemberships)
+                {
+                    //this.AddToRole(userAccount.Id, roleName);
+                    AddUserToRole(userAccount, roleName);
+                }
+            }
+            else
+            {
+                throw new Exception("Creation failed. " + userinfo.UserName + " is already in use, try " + verifiedUserName);
+            }
+        }
+        public void AddUserToRole(ApplicationUser userAccount, string roleName)
+        {
+            this.AddToRole(userAccount.Id, roleName);
+        }
+        #endregion
     }
 }

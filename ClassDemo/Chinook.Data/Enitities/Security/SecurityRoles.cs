@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChinookSystem.BLL.Security
+namespace Chinook.Data.Enitities.Security
 {
     public static class SecurityRoles
     {
