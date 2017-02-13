@@ -189,31 +189,48 @@ namespace ChinookSystem.BLL.Security
             return results.ToList();
         }
 
-        [DataObjectMethod(DataObjectMethodType.Insert,false)]
+        [DataObjectMethod(DataObjectMethodType.Insert, false)]
         public void AddUser(UserProfile userinfo)
         {
-            var userAccount = new ApplicationUser()
+            if (string.IsNullOrEmpty(userinfo.EmployeeId.ToString()))
             {
-                EmployeeId = userinfo.EmployeeId,
-                CustomerId = userinfo.CustomerId,
-                UserName = userinfo.UserName,
-                Email = userinfo.Email
-            };
-            IdentityResult result = this.Create(userAccount,
-                string.IsNullOrEmpty(userinfo.RequestedPassord) ? STR_DEFAULT_PASSWORD
-                : userinfo.RequestedPassord);
-            if (!result.Succeeded)
-            {
-                //name was already in use
-                //get a UserName that is not already on the Users Table
-                //the method will suggest an alternate UserName
-                userAccount.UserName = VerifyNewUserName(userinfo.UserName);
-                this.Create(userAccount, STR_DEFAULT_PASSWORD);
+                throw new Exception("Employee ID is missing. Remember Employee must be on file to get an user account.");
+               
             }
-            foreach ( var roleName in userinfo.RoleMemberships)
+            else
             {
-                //this.AddToRole(userAccount.Id, roleName);
-                AddUserToRole(userAccount, roleName);
+                EmployeeController sysmgr = new EmployeeController();
+                Employee existing = sysmgr.Employee_Get(int.Parse(userinfo.EmployeeId.ToString()));
+                if (existing == null)
+                {
+                    throw new Exception("Employee must be on file to get an user account.");
+                }
+                else
+                {
+                    var userAccount = new ApplicationUser()
+                    {
+                        EmployeeId = userinfo.EmployeeId,
+                        CustomerId = userinfo.CustomerId,
+                        UserName = userinfo.UserName,
+                        Email = userinfo.Email
+                    };
+                    IdentityResult result = this.Create(userAccount,
+                        string.IsNullOrEmpty(userinfo.RequestedPassord) ? STR_DEFAULT_PASSWORD
+                        : userinfo.RequestedPassord);
+                    if (!result.Succeeded)
+                    {
+                        //name was already in use
+                        //get a UserName that is not already on the Users Table
+                        //the method will suggest an alternate UserName
+                        userAccount.UserName = VerifyNewUserName(userinfo.UserName);
+                        this.Create(userAccount, STR_DEFAULT_PASSWORD);
+                    }
+                    foreach (var roleName in userinfo.RoleMemberships)
+                    {
+                        //this.AddToRole(userAccount.Id, roleName);
+                        AddUserToRole(userAccount, roleName);
+                    }
+                }
             }
         }
 
