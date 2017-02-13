@@ -42,7 +42,7 @@ namespace ChinookSystem.BLL.Security
         [DataObjectMethod(DataObjectMethodType.Select,false)]
         public List<string> ListAllRoleNames()
         {
-            return this.Roles.Select(r => r.Name).ToList();
+            return this.Roles.Where(r => r.Name != SecurityRoles.RegisteredUsers).Select(r => r.Name).ToList();
         }
 
         [DataObjectMethod(DataObjectMethodType.Select,false)]

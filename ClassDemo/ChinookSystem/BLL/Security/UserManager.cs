@@ -33,6 +33,7 @@ namespace ChinookSystem.BLL.Security
         private const string STR_WEBMASTER_USERNAME = "Webmaster";
         #endregion
 
+        #region Startup Account Adds
         public void AddWebMaster()
         {
             //Users accesses all the records on the AspNetUsers table
@@ -155,13 +156,15 @@ namespace ChinookSystem.BLL.Security
             //return the finallized new verified UserName
             return verifiedUserName;
         }
+        #endregion
 
         #region UserRole Adminstration
         [DataObjectMethod(DataObjectMethodType.Select,false)]
         public List<UserProfile> ListAllUsers()
         {
             var rm = new RoleManager();
-            var results = from person in Users.ToList()
+            List<UserProfile> results = new List<UserProfile>();
+            var tempresults = from person in Users.ToList()
                           select new UserProfile
                           {
                               UserId = person.Id,
@@ -176,14 +179,18 @@ namespace ChinookSystem.BLL.Security
             using (var context = new ChinookContext())
             {
                 Employee tempEmployee;
-                foreach(var person in results)
+                foreach(var person in tempresults)
                 {
                     if (person.EmployeeId.HasValue)
                     {
                         tempEmployee = context.Employees.Find(person.EmployeeId);
-                        person.FirstName = tempEmployee.FirstName;
-                        person.LastName = tempEmployee.LastName;
+                        if (tempEmployee != null)
+                        { 
+                            person.FirstName = tempEmployee.FirstName;
+                            person.LastName = tempEmployee.LastName;
+                        }
                     }
+                    results.Add(person);
                 }
             }
             return results.ToList();
@@ -238,6 +245,12 @@ namespace ChinookSystem.BLL.Security
         {
             this.AddToRole(userAccount.Id, roleName);
         }
+      
+
+        public void RemoveUser(UserProfile userinfo)
+        {
+            this.Delete(this.FindById(userinfo.UserId));
+        } 
         #endregion
     }
 }
