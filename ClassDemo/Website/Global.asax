@@ -16,12 +16,12 @@
         //Create the employee user accounts
         //when the application starts up
 
-        var RoleManager = new RoleManager();
-        RoleManager.AddStartupRoles();
+        var rolemgr = new RoleManager();
+        rolemgr.AddDefaultRoles();
 
-        var UserManager = new UserManager();
-        UserManager.AddWebMaster();
-        UserManager.AddEmployees();
+        var usermgr = new UserManager();
+        usermgr.AddWebMaster();
+
     }
 
 </script>

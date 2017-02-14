@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Chinook.Data.Enitities.Security;
 #endregion
+
 namespace ChinookSystem.DAL.Security
 {
     internal class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() : base("DefaultConnection")
+        public ApplicationDbContext()
+            : base("DefaultConnection")
         {
         }
     }

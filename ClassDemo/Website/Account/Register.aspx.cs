@@ -1,4 +1,5 @@
 ﻿
+
 using Microsoft.AspNet.Identity;
 using System;
 using System.Linq;
@@ -19,7 +20,7 @@ public partial class Account_Register : Page
         if (result.Succeeded)
         {
             //add new registered users as customers
-            manager.AddUserToRole(user, SecurityRoles.RegisteredUsers);
+
 
             IdentityHelper.SignIn(manager, user, isPersistent: false);
             IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
