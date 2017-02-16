@@ -21,6 +21,7 @@
 
         var usermgr = new UserManager();
         usermgr.AddWebMaster();
+        usermgr.AddEmployees();
 
     }
 

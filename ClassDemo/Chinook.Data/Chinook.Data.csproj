@@ -51,7 +51,9 @@
     <Compile Include="Enitities\Employee.cs" />
     <Compile Include="Enitities\MediaType.cs" />
     <Compile Include="Enitities\Security\ApplicationUser.cs" />
+    <Compile Include="Enitities\Security\RoleProfile.cs" />
     <Compile Include="Enitities\Security\SecurityRoles.cs" />
+    <Compile Include="Enitities\Security\UserProfile.cs" />
     <Compile Include="Enitities\Track.cs" />
     <Compile Include="POCOs\AlbumArtist.cs" />
     <Compile Include="POCOs\AlbumRelease.cs" />
