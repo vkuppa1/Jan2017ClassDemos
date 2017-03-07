@@ -73,8 +73,24 @@ namespace ChinookSystem.BLL
                 return results.ToList();
             }
         }//eom
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<SelectionList> List_AlbumTitles()
+        {
+            using (var context = new ChinookContext())
+            {
+                var results = from x in context.Albums
+                              orderby x.Title
+                              select new SelectionList
+                              {
+                                  IDValueField = x.AlbumId,
+                                  DisplayText = x.Title
+                              };
+                return results.ToList();
+            }
+        }
         #region CRUD
-       
+
         [DataObjectMethod(DataObjectMethodType.Select, false)]
         public List<Album> Albums_GetbyTitle(string title)
         {
