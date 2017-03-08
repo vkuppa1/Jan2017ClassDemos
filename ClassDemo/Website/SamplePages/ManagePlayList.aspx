@@ -2,98 +2,152 @@
 
 <%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="uc1" TagName="MessageUserControl" %>
 
-
-
-
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <div >
         <h1>Manage Playlist</h1>
     </div>
     <uc1:MessageUserControl runat="server" id="MessageUserControl" />
      <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             
-            <asp:DropDownList ID="ArtistList" runat="server"
+            <asp:DropDownList ID="ArtistDDL" runat="server"
                  DataSourceID="ArtistListODS"
-                 DataTextField="Name" 
-                DataValueField="ArtistId"  
-                Width="300px">
+                 DataTextField="DisplayText" 
+                DataValueField="IDValueField"  
+                Width="150px">
             </asp:DropDownList><br />
             <asp:Label ID="Label6" runat="server" Text="Artist" Width="50px"></asp:Label>&nbsp;&nbsp;
-            <asp:Button ID="ArtistFetch" runat="server" Text="Fetch" CssClass="btn btn-primary" OnClick="ArtistFetch_Click" /><br /><br />
+            <asp:Button ID="ArtistFetch" runat="server" Text="Fetch" CssClass="btn btn-primary" OnClick="ArtistFetch_Click"  /><br /><br />
             
-            <asp:DropDownList ID="MediaTypeList" runat="server"
-                Width="300px" 
+            <asp:DropDownList ID="MediaTypeDDL" runat="server"
+                Width="150px" 
                 DataSourceID="MediaTypeODS" 
                 DataTextField="DisplayText" 
-                DataValueField="PFKeyIdentifier">
+                DataValueField="IDValueField">
             </asp:DropDownList><br />
             <asp:Label ID="Label9" runat="server" Text="Media" Width="50px"></asp:Label>&nbsp;&nbsp;
-            <asp:Button ID="MediaTypeFetch" runat="server" Text="Fetch" CssClass="btn btn-primary" OnClick="MediaTypeFetch_Click"  /><br /><br />
+            <asp:Button ID="MediaTypeFetch" runat="server" Text="Fetch" CssClass="btn btn-primary" OnClick="MediaTypeFetch_Click"   /><br /><br />
             
-            <asp:DropDownList ID="GenreList" runat="server"
-                Width="300px" 
+            <asp:DropDownList ID="GenreDDL" runat="server"
+                Width="150px" 
                 DataSourceID="GenreListODS" 
                 DataTextField="DisplayText" 
-                DataValueField="PFKeyIdentifier">
+                DataValueField="IDValueField">
             </asp:DropDownList><br />
             <asp:Label ID="Label7" runat="server" Text="Genre" Width="50px"></asp:Label>&nbsp;&nbsp;
             <asp:Button ID="GenreFetch" runat="server" Text="Fetch" CssClass="btn btn-primary" OnClick="GenreFetch_Click" /><br /><br />
            
-             <asp:DropDownList ID="AlbumList" runat="server"
-                Width="300px" 
+             <asp:DropDownList ID="AlbumDDL" runat="server"
+                Width="150px" 
                 DataSourceID="AlbumListODS" 
                 DataTextField="DisplayText" 
-                DataValueField="PFKeyIdentifier">
+                DataValueField="IDValueField">
             </asp:DropDownList><br />
             <asp:Label ID="Label8" runat="server" Text="Album" Width="50px"></asp:Label>&nbsp;&nbsp;
-            <asp:Button ID="AlbumFetch" runat="server" Text="Fetch" CssClass="btn btn-primary" OnClick="AlbumFetch_Click" /><br />
+            <asp:Button ID="AlbumFetch" runat="server" Text="Fetch" CssClass="btn btn-primary" OnClick="AlbumFetch_Click"  /><br />
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-10">
             <%-- TracksBy and SearchArgID (can be hidden) are needed by the ListView ODS --%>
             <asp:Label ID="Label1" runat="server" Text="Tracks by "></asp:Label>
             <asp:Label ID="TracksBy" runat="server" ></asp:Label>
             <asp:Label ID="SearchArgID" runat="server" ></asp:Label>
-
             <%-- ItemCommand use for the + event on each row
                  I am hiding the TrackId for each row in ListView using CommandArgument --%>
             <asp:ListView ID="TrackSearchList" runat="server" 
-                OnItemCommand="TrackSearchList_ItemCommand" DataSourceID="TracksForSelectionODS">
-
+                DataSourceID="TracksForSelectionODS"
+                 OnItemCommand="TrackSearchList_ItemCommand">
+                <AlternatingItemTemplate>
+                    <tr style="background-color: #FFFFFF; color: #284775;">
+                        <td>
+                            <asp:LinkButton ID="AddToPlayList" runat="server"
+                                 CommandArgument='<%# Eval("TrackId") %>'
+                                 CssClass="btn"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
+                            </asp:LinkButton>
+                           <%-- <asp:Label Text='<%# Eval("TrackId") %>' runat="server" ID="TrackIdLabel" />--%>
+                        </td>
+                        <td>
+                            <asp:Label Text='<%# Eval("Name") %>' runat="server" ID="NameLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("Title") %>' runat="server" ID="TitleLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("MediaName") %>' runat="server" ID="MediaNameLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("GenreName") %>' runat="server" ID="GenreNameLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("Composer") %>' runat="server" ID="ComposerLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("Milliseconds") %>' runat="server" ID="MillisecondsLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# string.Format("{0:0.00}", (int)Eval("Bytes") / 1000000m) %>' runat="server" ID="BytesLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("UnitPrice") %>' runat="server" ID="UnitPriceLabel" /></td>
+                    </tr>
+                </AlternatingItemTemplate>
+               
                 <EmptyDataTemplate>
-                    <table runat="server" style="">
+                    <table runat="server" style="background-color: #FFFFFF; border-collapse: collapse; border-color: #999999; border-style: none; border-width: 1px;">
                         <tr>
                             <td>No data was returned.</td>
                         </tr>
                     </table>
                 </EmptyDataTemplate>
-    
+               
+                <ItemTemplate>
+                    <tr style="background-color: #E0FFFF; color: #333333;">
+                        <td>
+                            <asp:LinkButton ID="AddToPlayList" runat="server"
+                                 CommandArgument='<%# Eval("TrackId") %>'
+                                 CssClass="btn"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
+                            </asp:LinkButton>
+                           <%-- <asp:Label Text='<%# Eval("TrackId") %>' runat="server" ID="TrackIdLabel" />--%>
+                        </td>
+                        <td>
+                            <asp:Label Text='<%# Eval("Name") %>' runat="server" ID="NameLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("Title") %>' runat="server" ID="TitleLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("MediaName") %>' runat="server" ID="MediaNameLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("GenreName") %>' runat="server" ID="GenreNameLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("Composer") %>' runat="server" ID="ComposerLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("Milliseconds") %>' runat="server" ID="MillisecondsLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# string.Format("{0:0.00}", (int)Eval("Bytes") / 1000000m) %>' runat="server" ID="BytesLabel" /></td>
+                        <td>
+                            <asp:Label Text='<%# Eval("UnitPrice") %>' runat="server" ID="UnitPriceLabel" /></td>
+                    </tr>
+                </ItemTemplate>
                 <LayoutTemplate>
-                    <table runat="server">
+                    <table runat="server"> 
                         <tr runat="server">
                             <td runat="server">
-                                <table runat="server" id="itemPlaceholderContainer" style="" border="0">
-                                    <tr runat="server" style="">
-                                        <th runat="server">TrackId</th>
+                                <table runat="server" id="itemPlaceholderContainer" style="background-color: #FFFFFF; border-collapse: collapse; border-color: #999999; border-style: none; border-width: 1px; font-family: Verdana, Arial, Helvetica, sans-serif;" border="1">
+                                    <tr runat="server" style="background-color: #E0FFFF; color: #333333;">
+                                        <th runat="server"></th>
                                         <th runat="server">Name</th>
                                         <th runat="server">Title</th>
-                                        <th runat="server">MediaName</th>
-                                        <th runat="server">GenreName</th>
+                                        <th runat="server">Media</th>
+                                        <th runat="server">Genre</th>
                                         <th runat="server">Composer</th>
-                                        <th runat="server">Milliseconds</th>
-                                        <th runat="server">Bytes</th>
-                                        <th runat="server">UnitPrice</th>
+                                        <th runat="server">Msec</th>
+                                        <th runat="server">(MB)</th>
+                                        <th runat="server">Price</th>
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder"></tr>
                                 </table>
                             </td>
                         </tr>
                         <tr runat="server">
-                            <td runat="server" style="">
-                                <asp:DataPager runat="server" ID="DataPager2" PageSize="5" >
+                            <td runat="server" style="text-align: center; background-color: #c0c0c0; 
+                                font-family: Verdana, Arial, Helvetica, sans-serif; color: #000000">
+                                <asp:DataPager runat="server" ID="DataPager1" PageSize="5" 
+                                    PagedControlID="TrackSearchList">
                                     <Fields>
-                                        <asp:NumericPagerField ButtonType="Button" ButtonCount="4"  />
+                                        <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False"></asp:NextPreviousPagerField>
+                                        <asp:NumericPagerField></asp:NumericPagerField>
+                                        <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="False"></asp:NextPreviousPagerField>
                                     </Fields>
                                 </asp:DataPager>
                             </td>
@@ -101,78 +155,25 @@
                     </table>
                 </LayoutTemplate>
               
-                <ItemTemplate>
-                <tr style="background-color: #DCDCDC; color: #000000;">
-                    <td>
-                        <asp:LinkButton ID="AddToPlayList" runat="server" CommandArgument='<%# Eval("TrackId") %>'
-                            CssClass="btn" ><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
-                        </asp:LinkButton>
-                   
-                    </td>
-               
-                    <td>
-                        <asp:Label Text='<%# Eval("Name") %>' runat="server" ID="NameLabel" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("Title") %>' runat="server" ID="Label2" /></td>
-                    <td>
-                       <asp:Label Text='<%# Eval("MediaName") %>' runat="server" ID="Label3" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("GenreName") %>' runat="server" ID="Label4" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("Composer") %>' runat="server" ID="ComposerLabel" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("Milliseconds") %>' runat="server" ID="MillisecondsLabel" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("Bytes") %>' runat="server" ID="BytesLabel" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("UnitPrice") %>' runat="server" ID="UnitPriceLabel" /></td>
-                
-                </tr>
-            </ItemTemplate>
-                  <AlternatingItemTemplate>
-                <tr style="background-color: #FFF8DC;">
-                    <td>
-                       <asp:LinkButton ID="AddToPlayList" runat="server"  CommandArgument='<%# Eval("TrackId") %>' 
-                            CssClass="btn"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span></asp:LinkButton>
-                    </td>
-             
-                    <td>
-                        <asp:Label Text='<%# Eval("Name") %>' runat="server" ID="NameLabel" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("Title") %>' runat="server" ID="Label2" /></td>
-                    <td>
-                       <asp:Label Text='<%# Eval("MediaName") %>' runat="server" ID="Label3" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("GenreName") %>' runat="server" ID="Label4" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("Composer") %>' runat="server" ID="ComposerLabel" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("Milliseconds") %>' runat="server" ID="MillisecondsLabel" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("Bytes") %>' runat="server" ID="BytesLabel" /></td>
-                    <td>
-                        <asp:Label Text='<%# Eval("UnitPrice") %>' runat="server" ID="UnitPriceLabel" /></td>
-               
-                </tr>
-            </AlternatingItemTemplate>
-        
             </asp:ListView>
+            
+           
             <br />
        
             <asp:Label ID="Label5" runat="server" Text="PlayList"></asp:Label>&nbsp;&nbsp;
              <asp:TextBox ID="PlayListName" runat="server"></asp:TextBox>&nbsp;&nbsp;
-            <asp:Button ID="PlayListFetch" runat="server" Text="Fetch" CssClass="btn btn-primary" OnClick="PlayListFetch_Click" />&nbsp;&nbsp;
-            <asp:LinkButton ID="MoveUp" runat="server" CssClass="btn" OnClick="MoveUp_Click" >
+            <asp:Button ID="PlayListFetch" runat="server" Text="Fetch" CssClass="btn btn-primary"  />&nbsp;&nbsp;
+            <asp:LinkButton ID="MoveUp" runat="server" CssClass="btn"  >
                 <span aria-hidden="true" class="glyphicon glyphicon-chevron-up"></span>
             </asp:LinkButton>&nbsp;&nbsp;
-            <asp:LinkButton ID="MoveDown" runat="server" CssClass="btn"  OnClick="MoveDown_Click">
+            <asp:LinkButton ID="MoveDown" runat="server" CssClass="btn"  >
                 <span aria-hidden="true" class="glyphicon glyphicon-chevron-down"></span>
             </asp:LinkButton>&nbsp;&nbsp;
-             <asp:LinkButton ID="DeleteTrack" runat="server" CssClass="btn"  OnClick="DeleteTrack_Click">
+             <asp:LinkButton ID="DeleteTrack" runat="server" CssClass="btn"  >
                 <span aria-hidden="true" class="glyphicon glyphicon-remove" style="color:red"></span>
             </asp:LinkButton>
            <br /><br />
-
+ <%--
             <asp:GridView ID="CurrentPlayList" runat="server" AutoGenerateColumns="False" 
                 Caption="PlayList" GridLines="Horizontal" BorderStyle="None">
                 <Columns>
@@ -216,26 +217,31 @@
                     No current tracks on play list.
                 </EmptyDataTemplate>
                 <SelectedRowStyle BackColor="Aqua" />
-            </asp:GridView>
+            </asp:GridView>--%>
        </div>
     </div>
     <asp:ObjectDataSource ID="ArtistListODS" runat="server" OldValuesParameterFormatString="original_{0}" 
-        SelectMethod="Artist_ListAll" TypeName="ChinookSystem.BLL.ArtistController"></asp:ObjectDataSource>
+        SelectMethod="List_ArtistNames" TypeName="ChinookSystem.BLL.ArtistController"
+         OnSelected="CheckForException"></asp:ObjectDataSource>
     <asp:ObjectDataSource ID="MediaTypeODS" runat="server" OldValuesParameterFormatString="original_{0}" 
-        SelectMethod="MediaTypeList" TypeName="ChinookSystem.BLL.MediaTypeController"></asp:ObjectDataSource>
+        SelectMethod="List_MediaTypeNames" TypeName="ChinookSystem.BLL.MediaTypeController"
+        OnSelected="CheckForException"></asp:ObjectDataSource>
     <asp:ObjectDataSource ID="GenreListODS" runat="server" OldValuesParameterFormatString="original_{0}" 
-        SelectMethod="GenreList" TypeName="ChinookSystem.BLL.GenreController"></asp:ObjectDataSource>
+        SelectMethod="List_GenreNames" TypeName="ChinookSystem.BLL.GenreController"
+        OnSelected="CheckForException"></asp:ObjectDataSource>
     <asp:ObjectDataSource ID="AlbumListODS" runat="server" OldValuesParameterFormatString="original_{0}" 
-        SelectMethod="AlbumList" TypeName="ChinookSystem.BLL.AlbumController"></asp:ObjectDataSource>
-    <asp:ObjectDataSource ID="TracksForSelectionODS" runat="server" 
-        DataObjectTypeName="ChinookSystem.Data.Entities.Track" 
-        OldValuesParameterFormatString="original_{0}" 
-        SelectMethod="Get_TracksForPlaylistSelection" 
-        TypeName="ChinookSystem.BLL.TrackController">
+        SelectMethod="List_AlbumTitles" TypeName="ChinookSystem.BLL.AlbumController"
+        OnSelected="CheckForException"></asp:ObjectDataSource>
+    <asp:ObjectDataSource ID="TracksForSelectionODS" runat="server"
+        OldValuesParameterFormatString="original_{0}"
+        SelectMethod="List_TracksForPlaylistSelection"
+        TypeName="ChinookSystem.BLL.TrackController"
+        OnSelected="CheckForException">
         <SelectParameters>
             <asp:ControlParameter ControlID="SearchArgID" PropertyName="Text" Name="id" Type="Int32"></asp:ControlParameter>
             <asp:ControlParameter ControlID="TracksBy" PropertyName="Text" Name="fetchby" Type="String"></asp:ControlParameter>
         </SelectParameters>
+
     </asp:ObjectDataSource>
 </asp:Content>
 

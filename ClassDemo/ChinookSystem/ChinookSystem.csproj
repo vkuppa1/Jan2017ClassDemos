@@ -68,6 +68,7 @@
     <Compile Include="DAL\Security\ApplicationDbContext.cs" />
     <Compile Include="BLL\GenreController.cs" />
     <Compile Include="BLL\MediaTypeController.cs" />
+    <Compile Include="BLL\PlaylistTrackController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -19,7 +19,7 @@ namespace ChinookSystem.BLL
     {
         #region Business Processes
         [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public List<TrackList> Get_TracksForPlaylistSelection(int id, string fetchby)
+        public List<TrackList> List_TracksForPlaylistSelection(int id, string fetchby)
         {
             List<TrackList> results = null;
             using (var context = new ChinookContext())
