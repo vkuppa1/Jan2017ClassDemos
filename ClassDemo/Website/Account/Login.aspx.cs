@@ -1,9 +1,16 @@
-﻿using Microsoft.AspNet.Identity;
+﻿
+
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System;
 using System.Web;
 using System.Web.UI;
 using Website;
+
+#region Additional Namespaces
+using Chinook.Data.Enitities.Security;
+using ChinookSystem.BLL.Security;
+#endregion
 
 public partial class Account_Login : Page
 {
